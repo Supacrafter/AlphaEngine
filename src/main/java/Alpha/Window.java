@@ -80,7 +80,7 @@ public class Window {
                 currentScene.update(deltaTime);
             }
 
-            onMouseClick();
+            // onMouseClick();
 
             endTime = (float) glfwGetTime();
             deltaTime = endTime - beginTime;
@@ -132,19 +132,19 @@ public class Window {
         this.a = a;
     }
 
-    private void onMouseClick() {
-        if (MouseListener.mouseButtonDown(0)) {
-            setRGBA(0.07f, 0.13f, 0.23f, 1);
-        }
-        else if (MouseListener.mouseButtonDown(1))
-        {
-            setRGBA(0.13f, 0.07f, 0.23f, 1);
-        }
-        else {
-            setRGBA(0, 0, 0, 0);
-        }
-        glClearColor(r, g, b, a);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glfwSwapBuffers(glfwWindow);
-    }
+//    private void onMouseClick() {
+//        if (MouseListener.mouseButtonDown(0)) {
+//            setRGBA(0.07f, 0.13f, 0.23f, 1);
+//        }
+//        else if (MouseListener.mouseButtonDown(1))
+//        {
+//            setRGBA(0.13f, 0.07f, 0.23f, 1);
+//        }
+//        else {
+//            setRGBA(0, 0, 0, 0);
+//        }
+//        glClearColor(r, g, b, a);
+//        glClear(GL_COLOR_BUFFER_BIT);
+//        glfwSwapBuffers(glfwWindow);
+//    }
 }
