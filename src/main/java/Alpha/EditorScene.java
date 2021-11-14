@@ -50,7 +50,7 @@ public class EditorScene extends Scene {
     // Must be in Counterclockwise Order
     private int[] elementArray = {
         2, 1, 0, // Top Right Triangle
-        0, 1, 3 // Bootom Left Triangle
+        0, 1, 3 // Bottom Left Triangle
     };
 
     private int vaoID, vboID, eboID;
@@ -131,10 +131,10 @@ public class EditorScene extends Scene {
         int floatSizeBytes = 4;
         int vertexSizeBytes = (positionCoordinateSize + colorCodeSize) * floatSizeBytes;
 
-        glVertexAttribPointer(0, positionCoordinateSize, GL_FLOAT, false, vertexSizeBytes, positionCoordinateSize * floatSizeBytes);
+        glVertexAttribPointer(0, positionCoordinateSize, GL_FLOAT, false, vertexSizeBytes, 0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, colorCodeSize, GL_FLOAT, false, vertexSizeBytes, colorCodeSize * floatSizeBytes);
+        glVertexAttribPointer(1, colorCodeSize, GL_FLOAT, false, vertexSizeBytes, positionCoordinateSize * floatSizeBytes);
         glEnableVertexAttribArray(1);
     }
 
@@ -148,7 +148,7 @@ public class EditorScene extends Scene {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
         // Unbind Everything
         glDisableVertexAttribArray(0);
