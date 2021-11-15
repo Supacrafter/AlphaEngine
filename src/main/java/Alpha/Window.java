@@ -23,7 +23,7 @@ public class Window {
     private Window() {
         this.width = 800;
         this.height = 800;
-        this.title = "AlphaEngine";
+        this.title = "Alpha Engine";
     }
 
     public static void changeScene(int newScene) {
@@ -73,9 +73,6 @@ public class Window {
             // Poll events
             glfwPollEvents();
 
-            glClearColor(r, g, b, a);
-            glClear(GL_COLOR_BUFFER_BIT);
-
             if (deltaTime >= 0) {
                 currentScene.update(deltaTime);
             }
@@ -124,27 +121,4 @@ public class Window {
 
         Window.changeScene(0);
     }
-
-    private void setRGBA(float r, float g, float b, float a) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.a = a;
-    }
-
-//    private void onMouseClick() {
-//        if (MouseListener.mouseButtonDown(0)) {
-//            setRGBA(0.07f, 0.13f, 0.23f, 1);
-//        }
-//        else if (MouseListener.mouseButtonDown(1))
-//        {
-//            setRGBA(0.13f, 0.07f, 0.23f, 1);
-//        }
-//        else {
-//            setRGBA(0, 0, 0, 0);
-//        }
-//        glClearColor(r, g, b, a);
-//        glClear(GL_COLOR_BUFFER_BIT);
-//        glfwSwapBuffers(glfwWindow);
-//    }
 }
