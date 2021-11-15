@@ -53,7 +53,9 @@ public class EditorScene extends Scene {
             0, 1, 3 // bottom left triangle
     };
 
-    private int vaoID, vboID, eboID;
+    private int vaoID;
+    private int vboID;
+    private int eboID;
 
     public EditorScene() {
         System.out.println("In Level Editor");

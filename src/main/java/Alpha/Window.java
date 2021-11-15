@@ -21,8 +21,8 @@ public class Window {
     private static Scene currentScene;
 
     private Window() {
-        this.width = 800;
-        this.height = 800;
+        this.width = 1920;
+        this.height = 1080;
         this.title = "Alpha Engine";
     }
 
@@ -77,7 +77,7 @@ public class Window {
                 currentScene.update(deltaTime);
             }
 
-            // onMouseClick();
+            glfwSwapBuffers(glfwWindow);
 
             endTime = (float) glfwGetTime();
             deltaTime = endTime - beginTime;
