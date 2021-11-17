@@ -1,5 +1,6 @@
 package Alpha;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
 
@@ -11,37 +12,14 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class EditorScene extends Scene {
 
-    private String vertexShaderSrc = "#version 330 core\n" +
-            "layout (location=0) in vec3 aPos;\n" +
-            "layout (location=1) in vec4 aColor;\n" +
-            "\n" +
-            "out vec4 fColor;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "    fColor = aColor;\n" +
-            "    gl_Position = vec4(aPos, 1.0);\n" +
-            "}";
-
-    private String fragmentShaderSrc = "#version 330 core\n" +
-            "\n" +
-            "in vec4 fColor;\n" +
-            "\n" +
-            "out vec4 color;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "    color = fColor;\n" +
-            "}";
-
     private int vertexID, fragmentID, shaderProgram;
 
     private float[] vertexArray = {
             // position               // color
-            0.5f, -0.5f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
-            -0.5f,  0.5f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
-            0.5f,  0.5f, 0.0f ,      1.0f, 0.0f, 1.0f, 1.0f, // Top right    2
-            -0.5f, -0.5f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, // Bottom left  3
+            150f, 50f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
+            50f,  150f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
+            150f,  150f, 0.0f ,      1.0f, 0.0f, 1.0f, 1.0f, // Top right    2
+            50f, 50f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, // Bottom left  3
     };
 
     // IMPORTANT: Must be in counter-clockwise order
@@ -66,6 +44,7 @@ public class EditorScene extends Scene {
 
     @Override
     public void init() {
+        this.camera = new Camera(new Vector2f());
 
         // Make shader and compile
         testShader = new Shader("assets/shaders/default.shader");
@@ -108,24 +87,24 @@ public class EditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        camera.position.x -= dt * 50;
 
         // Use Shader
         testShader.use();
+        testShader.uploadMat4f("uProjection", camera.getProjectionMatrix());
+        testShader.uploadMat4f("uView", camera.getViewMatrix());
         // Bind the VAO that we're using
         glBindVertexArray(vaoID);
 
         // Enable the vertex attribute pointers
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-
         glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
-        // Unbind everything
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
 
         glBindVertexArray(0);
-
         // Detach Shader
         testShader.detach();
     }

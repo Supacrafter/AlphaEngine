@@ -1,6 +1,8 @@
 package Alpha;
 
 public abstract class Scene {
+    protected Camera camera;
+
     public Scene() {
 
     }
