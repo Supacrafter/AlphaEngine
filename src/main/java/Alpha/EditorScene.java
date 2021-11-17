@@ -21,7 +21,6 @@ public class EditorScene extends Scene {
             150f,  150f, 0.0f ,      1.0f, 0.0f, 1.0f, 1.0f, // Top right    2
             50f, 50f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, // Bottom left  3
     };
-
     // IMPORTANT: Must be in counter-clockwise order
     private int[] elementArray = {
             /*
@@ -87,18 +86,21 @@ public class EditorScene extends Scene {
 
     @Override
     public void update(float dt) {
-        camera.position.x -= dt * 50;
+        camera.position.x -= dt * 50.0f;
+        int i = 0;
 
         // Use Shader
         testShader.use();
         testShader.uploadMat4f("uProjection", camera.getProjectionMatrix());
         testShader.uploadMat4f("uView", camera.getViewMatrix());
+
         // Bind the VAO that we're using
         glBindVertexArray(vaoID);
 
         // Enable the vertex attribute pointers
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
+
         glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
