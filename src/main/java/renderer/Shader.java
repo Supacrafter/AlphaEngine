@@ -119,7 +119,7 @@ public class Shader {
     }
 
     public void use() {
-        // Bind Shader Program
+        // Use Shader Program
         glUseProgram(shaderProgramID);
     }
 

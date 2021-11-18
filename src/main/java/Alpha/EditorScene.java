@@ -1,5 +1,6 @@
 package Alpha;
 
+import components.Debug;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
@@ -18,7 +19,7 @@ public class EditorScene extends Scene {
             // position               // color
             150f, 50f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
             50f,  150f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
-            150f,  150f, 0.0f ,      1.0f, 0.0f, 1.0f, 1.0f, // Top right    2
+            150f, 150f, 0.0f,      1.0f, 0.0f, 1.0f, 1.0f, // Top right    2
             50f, 50f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, // Bottom left  3
     };
     // IMPORTANT: Must be in counter-clockwise order
@@ -35,7 +36,8 @@ public class EditorScene extends Scene {
     private int vboID;
     private int eboID;
 
-    Shader testShader;
+    Shader defaultShader;
+    GameObject testObj;
 
     public EditorScene() {
         System.out.println("In Level Editor");
@@ -44,10 +46,13 @@ public class EditorScene extends Scene {
     @Override
     public void init() {
         this.camera = new Camera(new Vector2f());
+        this.testObj = new GameObject("Test Object");
+        this.testObj.addComponent(new Debug());
+
 
         // Make shader and compile
-        testShader = new Shader("assets/shaders/default.shader");
-        testShader.compile();
+        defaultShader = new Shader("assets/shaders/default.shader");
+        defaultShader.compile();
 
         // ============================================================
         // Generate VAO, VBO, and EBO buffer objects, and send to GPU
@@ -87,12 +92,11 @@ public class EditorScene extends Scene {
     @Override
     public void update(float dt) {
         camera.position.x -= dt * 50.0f;
-        int i = 0;
 
         // Use Shader
-        testShader.use();
-        testShader.uploadMat4f("uProjection", camera.getProjectionMatrix());
-        testShader.uploadMat4f("uView", camera.getViewMatrix());
+        defaultShader.use();
+        defaultShader.uploadMat4f("uProjection", camera.getProjectionMatrix());
+        defaultShader.uploadMat4f("uView", camera.getViewMatrix());
 
         // Bind the VAO that we're using
         glBindVertexArray(vaoID);
@@ -108,6 +112,6 @@ public class EditorScene extends Scene {
 
         glBindVertexArray(0);
         // Detach Shader
-        testShader.detach();
+        defaultShader.detach();
     }
 }

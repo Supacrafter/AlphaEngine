@@ -1,7 +1,12 @@
 package Alpha;
 
+import java.util.List;
+
 public abstract class Scene {
+
     protected Camera camera;
+    private boolean isRunning = false;
+    private List<GameObject> gameObjects;
 
     public Scene() {
 
@@ -9,6 +14,22 @@ public abstract class Scene {
 
     public void init() {
 
+    }
+
+    public void start() {
+        for (GameObject go : gameObjects) {
+            go.start();
+        }
+    }
+
+    public void addGameObjectToScene(GameObject go) {
+        if (!isRunning) {
+            gameObjects.add(go);
+        }
+        else {
+            gameObjects.add(go);
+            go.start();
+        }
     }
 
     public abstract void update(float deltaTime);
