@@ -16,11 +16,11 @@ public class EditorScene extends Scene {
     private int vertexID, fragmentID, shaderProgram;
 
     private float[] vertexArray = {
-            // position               // color
-            150f, 50f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
-            50f,  150f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
-            150f, 150f, 0.0f,      1.0f, 0.0f, 1.0f, 1.0f, // Top right    2
-            50f, 50f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, // Bottom left  3
+            // position               // color                  // UV Coordinates
+            150f, 50f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f,      1, 0, // Bottom right 0
+            50f,  150f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f,     0, 1, // Top left     1
+            150f, 150f, 0.0f,      1.0f, 0.0f, 1.0f, 1.0f,   1, 1, // Top right    2
+            50f, 50f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f,   0, 0, // Bottom left  3
     };
     // IMPORTANT: Must be in counter-clockwise order
     private int[] elementArray = {
@@ -48,7 +48,7 @@ public class EditorScene extends Scene {
         this.camera = new Camera(new Vector2f());
         this.testObj = new GameObject("Test Object");
         this.testObj.addComponent(new Debug());
-
+        this.testObj.start();
 
         // Make shader and compile
         defaultShader = new Shader("assets/shaders/default.shader");
@@ -80,13 +80,16 @@ public class EditorScene extends Scene {
         // Add the vertex attribute pointers
         int positionsSize = 3;
         int colorSize = 4;
-        int floatSizeBytes = 4;
-        int vertexSizeBytes = (positionsSize + colorSize) * floatSizeBytes;
+        int uvSize = 2;
+        int vertexSizeBytes = (positionsSize + colorSize + uvSize) * Float.BYTES;
         glVertexAttribPointer(0, positionsSize, GL_FLOAT, false, vertexSizeBytes, 0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, positionsSize * floatSizeBytes);
+        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, positionsSize * Float.BYTES);
         glEnableVertexAttribArray(1);
+
+        glVertexAttribPointer(2, uvSize, GL_FLOAT, false, vertexSizeBytes, (positionsSize + colorSize) * Float.BYTES);
+        glEnableVertexAttribArray(2);
     }
 
     @Override
@@ -101,7 +104,6 @@ public class EditorScene extends Scene {
         // Bind the VAO that we're using
         glBindVertexArray(vaoID);
 
-        // Enable the vertex attribute pointers
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
@@ -113,5 +115,7 @@ public class EditorScene extends Scene {
         glBindVertexArray(0);
         // Detach Shader
         defaultShader.detach();
+
+        testObj.update(dt);
     }
 }

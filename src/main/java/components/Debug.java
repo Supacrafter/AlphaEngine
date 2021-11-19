@@ -3,7 +3,7 @@ package components;
 import Alpha.Component;
 
 public class Debug extends Component {
-    private  boolean firstTime = false;
+    private boolean firstTime = false;
 
     @Override
     public void start() {
