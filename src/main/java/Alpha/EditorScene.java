@@ -4,6 +4,7 @@ import components.Debug;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
+import renderer.Texture;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -37,6 +38,8 @@ public class EditorScene extends Scene {
     private int eboID;
 
     Shader defaultShader;
+    private Texture texture;
+
     GameObject testObj;
 
     public EditorScene() {
@@ -47,6 +50,9 @@ public class EditorScene extends Scene {
     public void init() {
         this.camera = new Camera(new Vector2f());
         this.testObj = new GameObject("Test Object");
+
+        this.texture = new Texture("assets/images/testImage.jpg");
+
         this.testObj.addComponent(new Debug());
         this.testObj.start();
 
